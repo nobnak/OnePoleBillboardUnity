@@ -1,6 +1,7 @@
 ﻿Shader "Custom/Tangent" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_Color ("Color", Color) = (0.5, 0.5, 0.5, 1.0)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -12,6 +13,7 @@
 			#pragma fragment frag
 
 			sampler2D _MainTex;
+			float4 _Color;
 
 			struct Input {
 				float4 vertex : POSITION;
