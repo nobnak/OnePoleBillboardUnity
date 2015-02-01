@@ -20,25 +20,28 @@
 			};
 			struct Inter {
 				float4 vertex : POSITION;
-				float4 tangent : TANGENT;
+				float3 tangent : TANGENT;
 				float2 uv : TEXCOORD0;
 			};
 
 			Inter vert(Input IN) {
+				float3 worldTang = mul(_Object2World, float4(IN.tangent.xyz, 0)).xyz;
+				worldTang *= unity_Scale.w;
+			
 				Inter OUT;
 				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
-				OUT.tangent = IN.tangent;
+				OUT.tangent = worldTang;
 				OUT.uv = IN.uv;
 				return OUT;
 			}
 			float4 frag(Inter IN) : COLOR {
-				#if TEXTURE
-				float4 c = tex2D(_MainTex, IN.uv);
-				return c;
+				#if defined(TEXTURE)
+				return tex2D(_MainTex, IN.uv);
+				#elif defined(RAW)
+				return float4(IN.tangent, 1);
+				#else
+				return float4(0.5 * (normalize(IN.tangent) + 1), 1);
 				#endif
-				
-				float4 t = IN.tangent;
-				return float4(0.5 * (t.xyz + 1), 1);
 			}
 			ENDCG
 		}
