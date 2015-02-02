@@ -63,7 +63,6 @@ public class TangentSphere : MonoBehaviour {
 		var tangents = new Vector4[vertices.Length];
 		var uvs = new Vector2[vertices.Length];
 		for (var x = 0; x < nVertsOnX; x++) {
-			var up = ups[x];
 			var right = rights[x];
 			for (var y = 0; y < nVertsOnY; y++) {
 				var angleX = Mathf.Repeat(-y * dy + CIRCLE / 4, CIRCLE);
